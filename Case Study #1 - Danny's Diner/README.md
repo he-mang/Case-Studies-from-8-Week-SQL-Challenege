@@ -350,16 +350,21 @@ ORDER BY s.customer_id;
 ````
 
 #### Explanation:
-- Use a CTE (cte6) to calculate:
-	- Each customer’s join_date.
-	- Their 7-day bonus window (join_date + 6 days).
-	- The last date of January (2021-01-31).
-- Apply a CASE expression to assign points:
-	- Sushi (product_id = 1): earns 20 points per $1 spent (2× multiplier).
-	- Within first week after joining: all items earn 20 points per $1.
-	- Otherwise: items earn 10 points per $1.
-- Restrict purchases to the period between join_date and January 31.
-- SUM(points) gives total points per customer, grouped by customer_id.
+- Use a **CTE** (`cte6`) to calculate:
+	- Each customer’s `join_dat`e.
+	- Their 7-day bonus window (`join_date` + 6 days).
+	- The last date of January (`2021-01-31`).
+- Apply a **CASE** expression to assign points:
+	- **Sushi (product_id = 1):** earns 20 points per $1 spent (2× multiplier).
+	- **Within first week after joining:** all items earn 20 points per $1.
+	- **Otherwise:** items earn 10 points per $1.
+- Restrict purchases to the period **between join_date and January 31**.
+- **SUM(points)** gives total points per customer, grouped by `customer_id`.
+
+#### Assumptions:
+- Before membership (up to the join date), each $1 spent earns **10 points**, except sushi which earns **20 points per $1**.
+- From **Day 1 to Day 7 of membership**, every item earns **20 points per $1**.
+- From **Day 8 to January 31**, regular items return to **10 points per $1**, while sushi continues to earn **20 points per $1**.
 
 #### Answer:
 | customer_id | total_points | 
