@@ -30,6 +30,8 @@ Danny wants to analyze his customers’ visiting patterns, spending habits, and 
 - Before they became members, both Customers A and B spent $25 and $40.
 - Throughout Jan 2021, their points for Customer A: 860, Customer B: 940 and Customer C: 360.
 
+***
+
 ## Question and Solution
 
 **1. What is the total amount each customer spent at the restaurant?**
@@ -117,7 +119,7 @@ GROUP BY customer_id, product_name;
 | B           | curry        | 
 | C           | ramen        |
 
-****
+***
 
 **4. What is the most purchased item on the menu and how many times was it purchased by all customers?**
 
@@ -387,7 +389,6 @@ ORDER BY s.customer_id;
 ## BONUS QUESTIONS
 
 **Join All The Things**
-
 **Recreate the table with: customer_id, order_date, product_name, price, member (Y/N)**
 
 ````sql
@@ -438,7 +439,6 @@ ORDER BY s.customer_id, s.order_date;
 ***
 
 **Rank All The Things**
-
 **Danny also requires further information about the `ranking` of customer products, but he purposely does not need the ranking for non-member purchases so he expects null `ranking` values for the records when customers are not yet part of the loyalty program.**
 
 ````sql
