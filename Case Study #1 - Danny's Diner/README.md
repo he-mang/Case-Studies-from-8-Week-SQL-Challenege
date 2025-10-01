@@ -135,33 +135,109 @@ LIMIT 1;
 | ----------- | ----------- |
 | ramen | 8 |
 
+***
 
+**5. Which item was the most popular for each customer?**
 
+````sql
+WITH cte2 AS (
+	SELECT
+		s.customer_id,
+		m.product_name,
+		COUNT(s.product_id) AS purchase_count,
+		DENSE_RANK() OVER(PARTITION BY s.customer_id ORDER BY COUNT(*) DESC) AS drnk
+	FROM sales s
+	JOIN menu m
+		ON s.product_id = m.product_id
+	GROUP BY s.customer_id, m.product_name
+	ORDER BY purchase_count DESC
+)
+SELECT 
+	customer_id,
+    product_name,
+    purchase_count
+FROM cte2
+WHERE drnk = 1;
+````
 
+#### Explanation:
+- Use a **CTE** (`cte2`) to calculate the number of times each customer purchased each product.
+- Apply **DENSE_RANK() OVER(PARTITION BY customer_id ORDER BY COUNT(product_id) DESC)** to rank products per customer based on purchase frequency.
+- **WHERE drnk = 1** filters to only include the most frequently purchased product(s) for each customer.
+- The final **SELECT** shows `customer_id`, their top `product_name`, and how many times they purchased it.
 
+#### Answer:
+| customer_id | product_name | order_count |
+| ----------- | ---------- |------------  |
+| A           | ramen        |  3   |
+| B           | sushi        |  2   |
+| B           | curry        |  2   |
+| B           | ramen        |  2   |
+| C           | ramen        |  3   |
 
+- Customer A and C prefer ramen, while Customer B enjoys all the food items on the menu.
 
+**6. Which item was purchased first by the customer after they became a member?**
 
+````sql
+WITH cte3 AS(
+	SELECT 
+		s.customer_id, s.order_date,
+		m.product_name,
+		mb.join_date,
+		ROW_NUMBER() OVER(PARTITION BY s.customer_id ORDER BY s.order_date) AS rown
+	FROM sales s
+	JOIN menu m
+		ON s.product_id = m.product_id
+	JOIN members mb
+		ON s.customer_id = mb.customer_id
+	WHERE s.order_date > mb.join_date
+)
+SELECT customer_id, product_name
+FROM cte3
+WHERE rown = 1;
+````
 
+#### Explanation:
+- Use a **CTE** (`cte3`) to join `sale`s, `menu`, and `members` tables, linking purchases to product names and membership join dates.
+- Apply **ROW_NUMBER() OVER(PARTITION BY customer_id ORDER BY order_date)** to rank each customer’s purchases after joining.
+- **WHERE s.order_date > join_date** ensures only purchases made after becoming a member are considered.
+- **WHERE rown = 1** selects the very first purchase each customer made after joining.
 
+#### Answer:
+| customer_id | product_name |
+| ----------- | ---------- |
+| A           | ramen        |
+| B           | sushi        |
 
+***
 
+**7. Which item was purchased just before the customer became a member?**
 
+````sql
+WITH cte4 AS(
+	SELECT 
+		s.customer_id, s.order_date,
+		m.product_name,
+		mb.join_date,
+		ROW_NUMBER() OVER(PARTITION BY s.customer_id ORDER BY s.order_date DESC) AS rown
+	FROM sales s
+	JOIN menu m
+		ON s.product_id = m.product_id
+	JOIN members mb
+		ON s.customer_id = mb.customer_id
+	WHERE s.order_date < mb.join_date
+)
+SELECT customer_id, product_name
+FROM cte4
+WHERE rown = 1;
+````
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+#### Explanation:
+Use a CTE (cte4) to join sales, menu, and members tables to link purchases with product names and membership join dates.
+Apply ROW_NUMBER() OVER(PARTITION BY customer_id ORDER BY order_date DESC) to rank purchases before membership, with the most recent first.
+WHERE s.order_date < join_date ensures only purchases made before joining are considered.
+WHERE rown = 1 selects the last item each customer bought just before becoming a member.
 
 
 
