@@ -34,7 +34,7 @@ JOIN menu m
 GROUP BY customer_id;
 ````
 
-#### Steps:
+#### Explanation:
 - **JOIN** the `sales` and `menu` tables on `product_id` to link each purchase to its price.
 - **SUM** the `price` values to calculate the total amount spent by each customer.
 - **GROUP BY** `customer_id` to show total spending for each individual customer.
@@ -45,10 +45,6 @@ GROUP BY customer_id;
 | A           | 76          |
 | B           | 74          |
 | C           | 36          |
-
-- Customer A spent $76.
-- Customer B spent $74.
-- Customer C spent $36.
 
 ***
 
@@ -62,7 +58,7 @@ FROM sales
 GROUP BY customer_id;
 ````
 
-#### Steps:
+#### Explanation:
 - **COUNT(DISTINCT)** counts unique `order_date` entries for each customer.
 - **DISTINCT** avoids double-counting days—for example, two visits on 2021-01-07 count as 1 day.
 - **GROUP BY** `customer_id` aggregates the results per customer to show their total visit days.
@@ -74,20 +70,70 @@ GROUP BY customer_id;
 | B           | 6          |
 | C           | 2          |
 
-- Customer A visited 4 times.
-- Customer B visited 6 times.
-- Customer C visited 2 times.
+***
 
+**3. What was the first item from the menu purchased by each customer??**
 
+````sql
+WITH cte1 AS (
+	SELECT 
+		s.customer_id,
+		s.order_date,
+		m.product_name,
+		DENSE_RANK() OVER(PARTITION BY s.customer_id ORDER BY s.order_date) AS drnk
+	FROM sales s
+	JOIN menu m
+		ON s.product_id	 =  m.product_id
+)
+SELECT
+	customer_id,
+    product_name
+FROM cte1
+WHERE drnk = 1
+GROUP BY customer_id, product_name;
+````
 
+#### Explanation:
+- Use a **CTE** (`cte1`) to join `sales` and `menu` on `product_id` to get each customer’s purchases with product names.
+- Apply **DENSE_RANK() OVER(PARTITION BY customer_id ORDER BY order_date)** to rank each customer’s orders by date.
+- Filter for **drnk = 1** to get only the first purchase(s) of each customer.
+- GROUP BY `customer_id`, `product_name` ensures each customer’s first purchased product(s) appear once.
 
+#### Answer:
+| customer_id | product_name | 
+| ----------- | ----------- |
+| A           | sushi        | 
+| A           | curry        | 
+| B           | curry        | 
+| C           | ramen        |
 
+****
 
+**4. What is the most purchased item on the menu and how many times was it purchased by all customers?**
 
+```sql
+SELECT
+	m.product_name,
+	COUNT(s.product_id) AS sales_count
+FROM sales s
+JOIN menu m
+	ON s.product_id = m.product_id
+GROUP BY m.product_name
+ORDER BY sales_count DESC
+LIMIT 1;
+````
 
+#### Explanation:
+- **JOIN** `sales` and `menu` on `product_id` to link each sale to its product name.
+- **COUNT** the number of times each product was sold to calculate total sales per item.
+- **GROUP BY** `product_name` aggregates the counts per product.
+- **ORDER BY sales_count DESC** sorts items from most to least sold.
+- **LIMIT 1** returns only the single most popular menu item.
 
-
-
+#### Answer:
+| product_name | sales_count | 
+| ----------- | ----------- |
+| ramen | 8 |
 
 
 
