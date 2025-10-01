@@ -177,6 +177,8 @@ WHERE drnk = 1;
 
 - Customer A and C prefer ramen, while Customer B enjoys all the food items on the menu.
 
+***
+
 **6. Which item was purchased first by the customer after they became a member?**
 
 ````sql
@@ -302,12 +304,12 @@ ORDER BY s.customer_id;
 ````
 
 #### Explanation:
-- Use a CTE (cte5) to calculate points for each product:
-- 	Regular items: 10 points per $1 spent (price * 10).
-- 	Sushi (product_id = 1): 2× points multiplier, so 20 points per $1 spent.
-- JOIN sales with the CTE to assign points for each customer purchase.
-- SUM(points) calculates total points per customer.
-- GROUP BY customer_id aggregates points for each customer, and ORDER BY customer_id sorts the results.
+- Use a **CTE** (`cte5`) to calculate points for each product:
+	- Regular items: 10 points per $1 spent (`price * 10`).
+	- Sushi (product_id = 1): 2× points multiplier, so 20 points per $1 spent (`price * 20`).
+- **JOIN** sales with the CTE to assign points for each customer purchase.
+- **SUM(points)** calculates total points per customer.
+- **GROUP BY customer_id** aggregates points for each customer, and **ORDER BY customer_id** sorts the results.
 
 
 
