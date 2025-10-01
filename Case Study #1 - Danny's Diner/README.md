@@ -311,11 +311,61 @@ ORDER BY s.customer_id;
 - **SUM(points)** calculates total points per customer.
 - **GROUP BY customer_id** aggregates points for each customer, and **ORDER BY customer_id** sorts the results.
 
+#### Answer:
+| customer_id | total_points | 
+| ----------- | ---------- |
+| A           | 860 |
+| B           | 940 |
+| C           | 360 |
 
+***
 
+**10. In the first week after a customer joins the program (including their join date) they earn 2x points on all items, not just sushi — how many points do customer A and B have at the end of January?**
 
+````sql
+WITH cte6 AS(
+	SELECT
+		customer_id,
+		join_date,
+		DATE_ADD(join_date, INTERVAL 6 DAY) AS  valid_date,
+		LAST_DAY('2021-01-31') AS last_date
+	FROM members
+)
+SELECT
+	s.customer_id,
+    SUM(
+		CASE
+			WHEN m.product_id = 1 THEN m.price * 20
+            WHEN s.order_date BETWEEN cte6.join_date AND cte6.valid_date THEN m.price * 20
+            ELSE m.price * 10
+		END) AS points
+FROM sales s
+JOIN cte6
+	ON s.customer_id = cte6.customer_id
+    AND s.order_date BETWEEN cte6.join_date AND cte6.last_date
+JOIN menu m
+	ON s.product_id = m.product_id
+GROUP BY s.customer_id
+ORDER BY s.customer_id;
+````
 
+#### Explanation:
+- Use a CTE (cte6) to calculate:
+	- Each customer’s join_date.
+	- Their 7-day bonus window (join_date + 6 days).
+	- The last date of January (2021-01-31).
+- Apply a CASE expression to assign points:
+	- Sushi (product_id = 1): earns 20 points per $1 spent (2× multiplier).
+	- Within first week after joining: all items earn 20 points per $1.
+	- Otherwise: items earn 10 points per $1.
+- Restrict purchases to the period between join_date and January 31.
+- SUM(points) gives total points per customer, grouped by customer_id.
 
+#### Answer:
+| customer_id | total_points | 
+| ----------- | ---------- |
+| A           | 1020 |
+| B           | 320 |
 
 
 
