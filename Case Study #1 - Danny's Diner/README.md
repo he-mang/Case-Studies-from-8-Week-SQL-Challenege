@@ -389,6 +389,7 @@ ORDER BY s.customer_id;
 ## BONUS QUESTIONS
 
 **Join All The Things**
+
 **Recreate the table with: customer_id, order_date, product_name, price, member (Y/N)**
 
 ````sql
@@ -439,6 +440,7 @@ ORDER BY s.customer_id, s.order_date;
 ***
 
 **Rank All The Things**
+
 **Danny also requires further information about the `ranking` of customer products, but he purposely does not need the ranking for non-member purchases so he expects null `ranking` values for the records when customers are not yet part of the loyalty program.**
 
 ````sql
