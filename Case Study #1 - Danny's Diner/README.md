@@ -20,6 +20,16 @@ Danny wants to analyze his customers’ visiting patterns, spending habits, and 
 
 ***
 
+## Insights
+
+- Customer B is the most frequent visitor with 6 visits in Jan 2021.
+- Danny’s Diner’s most popular item is ramen.
+- Customer A and C loves ramen whereas Customer B seems to enjoy sushi, curry and ramen equally.
+- Customer A is the 1st member of Danny’s Diner and his first order is ramen.
+- The last item ordered by Customers A and B before they became members are sushi. Does it mean that ramen is the deciding factor? It must be really delicious for them to sign up as members!
+- Before they became members, both Customers A and B spent $25 and $40.
+- Throughout Jan 2021, their points for Customer A: 860, Customer B: 940 and Customer C: 360.
+
 ## Question and Solution
 
 **1. What is the total amount each customer spent at the restaurant?**
