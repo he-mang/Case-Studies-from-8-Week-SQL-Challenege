@@ -234,25 +234,80 @@ WHERE rown = 1;
 ````
 
 #### Explanation:
-Use a CTE (cte4) to join sales, menu, and members tables to link purchases with product names and membership join dates.
-Apply ROW_NUMBER() OVER(PARTITION BY customer_id ORDER BY order_date DESC) to rank purchases before membership, with the most recent first.
-WHERE s.order_date < join_date ensures only purchases made before joining are considered.
-WHERE rown = 1 selects the last item each customer bought just before becoming a member.
+- Use a **CTE** (`cte4`) to join `sales`, `menu`, and `members` tables to link purchases with product names and membership join dates.
+- Apply **ROW_NUMBER() OVER(PARTITION BY customer_id ORDER BY order_date DESC)** to rank purchases before membership, with the most recent first.
+- **WHERE s.order_date < join_date** ensures only purchases made before joining are considered.
+- **WHERE rown = 1** selects the last item each customer bought just before becoming a member.
 
+#### Answer:
+| customer_id | product_name |
+| ----------- | ---------- |
+| A           | sushi        |
+| B           | sushi        |
 
+***
 
+**8. What is the total items and amount spent for each member before they became a member?**
 
+````sql
+SELECT
+	s.customer_id, 
+    COUNT(s.product_id) AS total_items,
+    SUM(m.price) AS total_sales
+FROM sales s
+JOIN members mb
+	ON s.customer_id = mb.customer_id
+    AND s.order_date < mb.join_date
+JOIN menu m
+	ON s.product_id = m.product_id
+GROUP BY s.customer_id
+ORDER BY s.customer_id;
+````
 
+#### Explanation:
+- **JOIN** `sales` with `members` to focus on purchases made by customers before their membership (`s.order_date < join_date`).
+- **JOIN** with `menu` to access product prices.
+- **COUNT(product_id)** calculates the total number of items each customer bought before joining.
+- **SUM(price)** calculates the total amount spent by each customer before membership.
+- **GROUP BY customer_id** aggregates results per customer, and **ORDER BY customer_id** sorts the output for clarity.
 
+#### Answer:
+| customer_id | total_items | total_sales |
+| ----------- | ---------- |----------  |
+| A           | 2 |  25       |
+| B           | 3 |  40       |
 
+***
 
+**9. If each $1 spent equates to 10 points and sushi has a 2x points multiplier — how many points would each customer have?**
 
+````sql
+WITH cte5 AS(
+	SELECT 
+		product_id,
+		CASE
+			WHEN product_id = 1 THEN price * 20
+			ELSE price * 10
+		END AS points
+	FROM menu
+)
+SELECT
+	s.customer_id,
+    SUM(cte5.points) AS total_points
+FROM sales s
+JOIN cte5
+	ON s.product_id = cte5.product_id
+GROUP BY s.customer_id
+ORDER BY s.customer_id;
+````
 
-
-
-
-
-
+#### Explanation:
+- Use a CTE (cte5) to calculate points for each product:
+- 	Regular items: 10 points per $1 spent (price * 10).
+- 	Sushi (product_id = 1): 2× points multiplier, so 20 points per $1 spent.
+- JOIN sales with the CTE to assign points for each customer purchase.
+- SUM(points) calculates total points per customer.
+- GROUP BY customer_id aggregates points for each customer, and ORDER BY customer_id sorts the results.
 
 
 
