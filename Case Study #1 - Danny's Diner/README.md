@@ -1,5 +1,4 @@
-# 🍜 Case Study #1: Danny's Diner 
-<img width="500" height="520" alt="1" src="https://github.com/user-attachments/assets/f4cb13e8-38b6-43a8-b5de-7217b0e37362" />
+# Danny's Diner Sales & Loyalty Program Analysis
 
 ## 📚 Table of Contents
 - [Business Task](#business-task)
@@ -11,17 +10,48 @@ This case study is based on information provided in the following link: [here](h
 
 ***
 
-## Business Task
-Danny wants to analyze his customers’ visiting patterns, spending habits, and favorite menu items to provide a more personalized experience. He plans to use these insights to evaluate expanding the loyalty program and needs basic datasets for his team to inspect without using SQL.
+## Project Goal: Unlocking Customer Value
+Danny's Diner, a Japanese food restaurant, is seeking to understand its early operational data (January 2021) to optimize its customer experience and evaluate the effectiveness of its pilot loyalty program. This project uses SQL to transform raw sales and membership data into actionable business insights.
 
 ***
 
 ## Entity Relationship Diagram
 <img width="500" height="520" alt="image" src="https://github.com/user-attachments/assets/b40fbd8e-03fb-485c-a446-c80e95f27ca1" />
 
+- **Sales:** The `sales` table captures all `customer_id` level purchases with an corresponding `order_date` and `product_id` information for when and what menu items were ordered.
+
+- **Menu:** The `menu` table maps the `product_id` to the actual `product_name` and `price` of each menu item.
+
+- **Members:** The final `members` table captures the `join_date` when a `customer_id` joined the beta version of the Danny’s Diner loyalty program.
+
 ***
 
-## Insights
+## Key Business Insights & Recommendations
+The analysis identified distinct customer patterns and opportunities to refine the loyalty program.
+
+### 1. Customer Engagement & Spending Habits
+| Metric			| Customer A  			| Customer B 												| Customer C 						| Overall Trend																|
+| ----------------- | --------------------- | --------------------------------------------------------- | --------------------------------- | ------------------------------------------------------------------------- |
+| Total Spend		| $76					| $74														| $36								| **Customer A** is the highest spendor.									|
+| Visit Frequency	| 4						| 6															| 2									| **Customer B** is the most frequent visitor.								|
+| Favorite Item(s)	| **Ramen** (3 times)	| **Sushi, Curry, Ramen** (2 times each - _diverse_)		| **Ramen** (3 times)				| **Ramen** is the clear favorite for Customers A and C.					|
+
+- **Insight:** The highest spender (A) is not the most frequent visitor (B). This suggests Customer A responds well to a higher Average Order Value (AOV), while Customer B represents a high-volume loyalty target.
+- **Recommendation:** Implement a **"Frequency Reward"** specifically for high-frequency visitors like Customer B (e.g., a free side dish after 5 visits) to drive volume.
+
+XYZ
+
+
+
+
+
+
+
+
+
+
+
+
 
 - Customer B is the most frequent visitor with 6 visits in Jan 2021.
 - Danny’s Diner’s most popular item is ramen.
