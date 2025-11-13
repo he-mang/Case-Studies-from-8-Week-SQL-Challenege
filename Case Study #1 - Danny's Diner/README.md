@@ -384,30 +384,31 @@ ORDER BY s.customer_id;
 **10. In the first week after a customer joins the program (including their join date) they earn 2x points on all items, not just sushi — how many points do customer A and B have at the end of January?**
 
 ````sql
-WITH cte6 AS(
-	SELECT
-		customer_id,
-		join_date,
-		DATE_ADD(join_date, INTERVAL 6 DAY) AS  valid_date,
-		LAST_DAY('2021-01-31') AS last_date
-	FROM members
+WITH cte6 AS (
+  SELECT 
+    customer_id, 
+    join_date,
+    DATE_ADD(join_date, INTERVAL 6 DAY) AS valid_date, 
+    LAST_DAY('2021-01-01') AS last_date
+  FROM members
 )
-SELECT
-	s.customer_id,
-    SUM(
-		CASE
-			WHEN m.product_id = 1 THEN m.price * 20
-            WHEN s.order_date BETWEEN cte6.join_date AND cte6.valid_date THEN m.price * 20
-            ELSE m.price * 10
-		END) AS points
+SELECT 
+  cte6.customer_id,
+  SUM(
+    CASE 
+      WHEN s.order_date BETWEEN cte6.join_date AND cte6.valid_date THEN m.price * 20
+      WHEN m.product_name = 'sushi' THEN m.price * 20
+      ELSE m.price * 10
+    END
+  ) AS total_points
 FROM sales s
-JOIN cte6
-	ON s.customer_id = cte6.customer_id
-    AND s.order_date BETWEEN cte6.join_date AND cte6.last_date
-JOIN menu m
-	ON s.product_id = m.product_id
-GROUP BY s.customer_id
-ORDER BY s.customer_id;
+JOIN cte6  
+  ON s.customer_id = cte6.customer_id
+JOIN menu m 
+  ON s.product_id = m.product_id
+WHERE s.order_date <= cte6.last_date
+GROUP BY cte6.customer_id
+ORDER BY cte6.customer_id;
 ````
 
 #### Explanation:
