@@ -383,7 +383,7 @@ ORDER BY cte6.customer_id;
 #### Answer:
 | customer_id | total_points | 
 | ----------- | ---------- |
-| A           | 1020 |
+| A           | 1370 |
 | B           | 820 |
 
 ***
