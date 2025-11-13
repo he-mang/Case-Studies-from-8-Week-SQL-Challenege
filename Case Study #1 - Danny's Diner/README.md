@@ -1,11 +1,5 @@
 # Danny's Diner Sales & Loyalty Program Analysis
 
-## 📚 Table of Contents
-- [Business Task](#business-task)
-- [Entity Relationship Diagram](#entity-relationship-diagram)
-- [Insights](#insights)
-- [Question and Solution](#question-and-solution)
-
 This case study is based on information provided in the following link: [here](https://8weeksqlchallenge.com/case-study-1/). 
 
 ***
