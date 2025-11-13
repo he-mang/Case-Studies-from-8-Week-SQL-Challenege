@@ -39,19 +39,37 @@ The analysis identified distinct customer patterns and opportunities to refine t
 - **Insight:** The highest spender (A) is not the most frequent visitor (B). This suggests Customer A responds well to a higher Average Order Value (AOV), while Customer B represents a high-volume loyalty target.
 - **Recommendation:** Implement a **"Frequency Reward"** specifically for high-frequency visitors like Customer B (e.g., a free side dish after 5 visits) to drive volume.
 
-XYZ
+### 2. Loyalty Program Evaluation
+The data provides compelling evidence on customer behavior _just_ before and _just_ after joining the loyalty program.
+- **Pre-Membership Behavior**
+  - **Customer A** spent $25 (2 items) before joining.
+  - **Customer B** spent $40 (3 items) before joining.
+  - The **last item purchased before joining for both A and B was Sushi.**
+- **Post-Membership Behavior:**
+  - **Customer A's** first purchase was **Ramen.**
+  - **Customer B's** first purchase was **Sushi.**
+- **Insight:** Both customers' **"last non-member purchaase** was Sushi, and for Customer B, the **"first member purchase** was also Sushi. This suggests the high-value Sushi item might be a gateway product to membership or an item they were willing to try before committing to the program.
+- **Recommendation:** Consider **offering a high-value incentive** (e.g., 50% off a premium item like Sushi) to customers who are **one purchase away** from the loyalty program entry criteria.
+
+### 3. The Power of Ramen
+- **Global Popularity: Ramen** is the undisputed most purchased item on the entire menu (8 total sales).
+- **Insight:** Ramen is the diner's signature dish and biggest traffic driver.
+- **Recommendation:** Use the popularity of Ramen as a lever for the loyalty program. Exclude it from non-member discounts, but offer a **"Double Points Day"** on Ramen for members only to reinforce loyalty value.
+
+## Points Program Impact
+The complex points calculation reveals how the new bonus structures affect customer standing.
+| Customer		| Total Points (Standard Rules) | Total Points (Jan 2021 w/ 7-Day Bonus) 	| Impact 																			|
+| ------------- | ----------------------------- | ----------------------------------------- | --------------------------------------------------------------------------------- | 
+| Customer A 	| 860							| 1020										| 160 extra points due to bonus window..											|
+| Customer B 	| 940							| 320										| 40 points lost due to only purchases _after_ join date being countedd for bonus. 	|
+| Customer C 	| 360							| 0 (Non-member) 							| N/A																				| 
+
+-**Insight:** The calculation shows Customer A's points dramatically increased, while Customer B's points decreased significantly. **This is a critical finding!** The problem is how the points system was defined: standard rules apply to all sales, but the bonus rule only applies to sales **after** joining. 
 
 
 
 
-
-
-
-
-
-
-
-
+---
 
 - Customer B is the most frequent visitor with 6 visits in Jan 2021.
 - Danny’s Diner’s most popular item is ramen.
